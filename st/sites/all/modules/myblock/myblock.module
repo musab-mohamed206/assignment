@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * My Block module.
+ */
+/**
+ * Implements hook_block_info().
+ */
+
+function myblock_block_info()
+{
+  $info['myblock'] = array(
+    'info' => t('My Block'),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function myblock_block_view($delta = '')
+{
+  $block = array();
+  switch ($delta) {
+    case 'myblock':
+      $block['subject'] = t('My Block');
+      $block['content'] = t('This is my block!');
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function myblock_menu()
+{
+  $items = array();
+  $items['myblock'] = array(
+    'title' => 'My Block',
+    'page callback' => 'myblock_page',
+    'page arguments' => array(),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * MY BLOCK PAGE.
+ */
+function myblock_page()
+{
+  return array(
+    '#markup' => t('This is my block!!!!'),
+  );
+}
+
+
+/**
+ * Impelments hook_permission().
+ */
+function myblock_permission()
+{
+  return array(
+    'access content' => array(
+      'title' => t('Access content'),
+      'description' => t('Permission to access content.'),
+    ),
+  );
+}

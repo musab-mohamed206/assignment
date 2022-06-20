@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function form_exampole_schema()
+{
+  $schema = array();
+  $schema['form_exampole'] = array(
+    'description' => 'Stores form submissions.',
+    'fields' => array(
+      'fe_id' => array(
+        'description' => 'The node ID of the form.',
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'mynumber' => array(
+        'description' => 'The number of the form.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'mytext' => array(
+        'description' => 'The text of the form.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('fe_id'),
+  );
+  return $schema;
+}

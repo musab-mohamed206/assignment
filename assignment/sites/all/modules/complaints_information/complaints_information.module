@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * impelments hook_menu()
+ */
+function complaints_information_menu()
+{
+  $items = array();
+  $items['complaints_information_page'] = array(
+    'title' => 'Complaints Information page',
+    'description' => '',
+    'page callback' => 'complaints_information_page',
+    'access arguments' => array('complaints_information_page'),
+  );
+  return $items;
+}
+
+/**
+ * impelments hook_permission()
+ */
+
+function complaints_information_permission()
+{
+  $permissions['complaints_information_page'] = array(
+    'title' => t('complaints_information_page'),
+    'description' => t('complaints_information_page'),
+  );
+  return $permissions;
+}
+
+/**
+ * Page callback for complaints_information_page.
+ */
+function complaints_information_page()
+{
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'complaints');
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $complaints_information_nid = array_keys($result['node']);
+    $complaints_information = entity_load('node', $complaints_information_nid);
+  }
+
+  $output = "<table><tr><th>name</th><th>mail</th><th>phone</th><th>complaint type</th><th>Workflow</th><th>Attachment</th></tr>";
+  foreach ($complaints_information as $complaints_information_node) {
+    $output .= "<tr>";
+    $output .= "<td>" . $complaints_information_node->field_name['und'][0]['value'] . "</td>";
+    $output .= "<td>" . $complaints_information_node->field_mail['und'][0]['value'] . "</td>";
+    $output .= "<td>" . $complaints_information_node->field_phone['und'][0]['value'] . "</td>";
+    $output .= "<td>" . list_allowed_values(field_info_field('field_complaint_type'))[$complaints_information_node->field_complaint_type['und'][0]['value']] . "</td>";
+    $output .= "<td>" . list_allowed_values(field_info_field('field_workflow'))[$complaints_information_node->field_workflow['und'][0]['value']] . "</td>";
+    if ($complaints_information_node->field_complaint_type['und'][0]['value'] == 3) {
+      $output .= "<td><a href='http://localhost/assignment/sites/default/files/" . $complaints_information_node->field_attachment['und'][0]['filename'] . "' type='application/pdf; length=3461775'>attach</a> </td>";
+    } else {
+      $output .= "<td> </td>";
+    }
+
+    $output .= "</tr>";
+  }
+  $output .= "</table>";
+
+  return $output;
+}

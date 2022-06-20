@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * implements hook_permission().
+ */
+function form_exampole_permission()
+{
+  return array(
+    'submit_form_exampole' => array(
+      'title' => t('Submit form_exampole'),
+      'description' => t('Submit the form_exampole form.'),
+    ),
+  );
+}
+
+/**
+ * implements hook_menu().
+ */
+function form_exampole_menu()
+{
+  $items = array();
+  $items['form-exampole'] = array(
+    'title' => 'Form Exampole',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('submit_form_exampole'),
+    'access callback' => 'drupal_get_form',
+    'page arguments' => array('form_exampole_form'),
+  );
+  return $items;
+}
+
+/**
+ * my exampole form.
+ */
+function form_exampole_form($form, &$form_state)
+{
+  $form['mynumber'] = array(
+    '#type' => 'textfield',
+    '#title' => t('My number'),
+    '#maxlength' => 10,
+    '#required' => TRUE,
+    '#discription' => t('My number description'),
+  );
+  $form['mytext'] = array(
+    '#type' => 'textfield',
+    '#title' => t('My text'),
+    '#discription' => t('My text description'),
+    '#default_value' => '',
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add item'),
+  );
+  return $form;
+}

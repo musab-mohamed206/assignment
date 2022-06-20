@@ -1,0 +1,4 @@
+name = "User information block"
+description = "Provides a block for displaying user information."
+core = "7.x"
+php = "7.x"

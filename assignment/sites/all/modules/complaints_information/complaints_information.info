@@ -1,0 +1,5 @@
+name = "complaints information"
+description = "Provides a page for displaying complaints information."
+version = "1.0"
+core = "7.x"
+php = "7.x"
